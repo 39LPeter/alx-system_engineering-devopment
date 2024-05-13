@@ -12,8 +12,8 @@ frontend plotterwave
 
 backend plotterwave_backend
     balance roundrobin
-    server 63960-web-01 54.236.12.160:80 check
-    server 63960-web-02 52.201.211.164:80 check
+    server 425874-web-01 54.236.12.160:80 check
+    server 425874-web-02 52.201.211.164:80 check
 "
 sudo chown -R "$USER":"$USER" /etc/haproxy/
 echo "$config" >> /etc/haproxy/haproxy.cfg
