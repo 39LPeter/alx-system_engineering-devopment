@@ -1,21 +1,14 @@
 #!/usr/bin/python3
-"""
-    Uses the fake API to get an employer
-"""
+"""Returns to-do list information for a given employee ID."""
 import requests
-from sys import argv
+import sys
 
 if __name__ == "__main__":
-    id_em = argv[1]
-    url_employ = "https://jsonplaceholder.typicode.com/users/{}".format(id_em)
-    url_todos = url_employ + "/todos"
-    r_employ = requests.get(url_employ).json()
-    r_todos = requests.get(url_todos).json()
-    name = r_employ.get("name")
-    total_num_task = r_todos
-    done_task = [task for task in r_todos if task.get("completed")]
-    output = "Employee {} is done with tasks({}/{}):".format(
-                name, len(done_task), len(total_num_task))
-    for task in done_task:
-        output += "\n\t " + task.get("title")
-    print(output)
+    url = "https://jsonplaceholder.typicode.com/"
+    user = requests.get(url + "users/{}".format(sys.argv[1])).json()
+    todos = requests.get(url + "todos", params={"userId": sys.argv[1]}).json()
+
+    completed = [t.get("title") for t in todos if t.get("completed") is True]
+    print("Employee {} is done with tasks({}/{}):".format(
+        user.get("name"), len(completed), len(todos)))
+    [print("\t {}".format(c)) for c in completed]
